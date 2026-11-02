@@ -1,0 +1,20 @@
+---
+-  name: creating a pachake
+   hosts: all
+   become: true
+
+   tasks:
+   -  name: creating a package
+      yum:
+        pkg: httpd
+        state: installed
+
+   -  name: starting service
+      service:
+        name: httpd
+        state: started
+
+   -  name: copying a file
+      copy:
+        src: index.html
+        dest: /var/www/html   

@@ -1,0 +1,32 @@
+---
+-  name: creating all packages
+   hosts: all
+   become: true
+   
+   tasks:
+   -  name: httpd package
+      yum:
+        pkg: http
+        state: installed
+      notify: start service httpd  
+      when: ansible_os_family == "RedHat"
+      ignore_errors: yes
+
+   handlers:
+   -  name: start service httpd
+      service:
+        name: httpd
+        state: started
+      when: ansible_os_family == "RedHat"  
+
+   -  name: package spache
+      apt:
+        pkg: apache2
+        state: installed
+      when: ansible_os_family == "Debian"
+
+   -  name: start service
+      service:
+        name: apache2
+        state: started
+      when: ansible_os_family == "Debian"
